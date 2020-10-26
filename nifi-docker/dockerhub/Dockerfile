@@ -20,7 +20,7 @@ FROM openjdk:8-jre
 LABEL maintainer="Apache NiFi <dev@nifi.apache.org>"
 LABEL site="https://nifi.apache.org"
 
-ARG NIFI_VERSION=1.13.0
+ARG NIFI_VERSION=1.12.1
 ARG BASE_URL=https://archive.apache.org/dist
 ARG MIRROR_BASE_URL=${MIRROR_BASE_URL:-${BASE_URL}}
 ARG NIFI_BINARY_PATH=${NIFI_BINARY_PATH:-/nifi/${NIFI_VERSION}/nifi-${NIFI_VERSION}-bin.zip}
