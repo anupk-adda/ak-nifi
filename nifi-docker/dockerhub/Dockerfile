@@ -34,7 +34,9 @@ ENV NIFI_PID_DIR=${NIFI_HOME}/run
 ENV NIFI_LOG_DIR=${NIFI_HOME}/logs
 
 ADD sh/ ${NIFI_BASE_DIR}/scripts/
-RUN chmod -R g=u ${NIFI_BASE_DIR}/scripts/*.sh
+
+RUN chgrp -R 0 ${NIFI_BASE_DIR}/scripts/  \
+    && chmod -R g+rwX ${NIFI_BASE_DIR}/scripts/*.sh
 
 # Setup NiFi user and create necessary directories
 RUN  mkdir -p ${NIFI_BASE_DIR} \
