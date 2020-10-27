@@ -16,7 +16,7 @@
 # under the License.
 #
 
-FROM  ubi8/openjdk-8 
+FROM  openjdk-8 
 LABEL maintainer="Apache NiFi <dev@nifi.apache.org>"
 LABEL site="https://nifi.apache.org"
 
