@@ -35,13 +35,11 @@ ENV NIFI_LOG_DIR=${NIFI_HOME}/logs
 
 ADD sh/ ${NIFI_BASE_DIR}/scripts/
 
-RUN chgrp -R 0 ${NIFI_BASE_DIR}/scripts/  \
-    && chmod -R g+rwX ${NIFI_BASE_DIR}/scripts/*.sh
 
 # Setup NiFi user and create necessary directories
 RUN  mkdir -p ${NIFI_BASE_DIR} \
     && chgrp -R 0  ${NIFI_BASE_DIR} \
-    && chmod -R g=u ${NIFI_BASE_DIR} \
+    && chmod -R g+rwX ${NIFI_BASE_DIR} \
     && apt-get update \
     && apt-get install -y jq xmlstarlet procps
 
@@ -70,8 +68,6 @@ RUN curl -fSL ${MIRROR_BASE_URL}/${NIFI_BINARY_PATH} -o ${NIFI_BASE_DIR}/nifi-${
     && mkdir -p ${NIFI_LOG_DIR} \
     && ln -s ${NIFI_HOME} ${NIFI_BASE_DIR}/nifi-${NIFI_VERSION}
 
-RUN chgrp -R 0 ${NIFI_HOME} ${NIFI_LOG_DIR} // \
-    && chmod -R g=u ${NIFI_HOME} ${NIFI_LOG_DIR} // 
 
 VOLUME ${NIFI_LOG_DIR} \
        ${NIFI_HOME}/conf \
