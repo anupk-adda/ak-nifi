@@ -38,8 +38,8 @@ RUN chmod -R +x ${NIFI_BASE_DIR}/scripts/*.sh
 
 # Setup NiFi user and create necessary directories
 RUN  mkdir -p ${NIFI_BASE_DIR} \
-    && chgrp -R  0 ${NIFI_BASE_DIR} \
-    && chmod -R g=u ${NIFI_BASE_DIR} 
+    && chgrp -R  0 ${NIFI_BASE_DIR} ${NIFI_HOME} \
+    && chmod -R g=u ${NIFI_BASE_DIR} ${NIFI_HOME}
 
 #USER 1001
 
@@ -91,5 +91,6 @@ WORKDIR ${NIFI_HOME}
 # Also we need to use relative path, because the exec form does not invoke a command shell,
 # thus normal shell processing does not happen:
 # https://docs.docker.com/engine/reference/builder/#exec-form-entrypoint-example
+RUN echo "starting the nifi "
 CMD ["../scripts/start.sh"]
 USER 1001
