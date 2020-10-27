@@ -41,7 +41,7 @@ RUN  mkdir -p ${NIFI_BASE_DIR} \
     && chgrp -R  0 ${NIFI_BASE_DIR} \
     && chmod -R g=u ${NIFI_BASE_DIR} 
 
-USER 1001
+#USER 1001
 
 # Download, validate, and expand Apache NiFi Toolkit binary.
 RUN curl -fSL ${MIRROR_BASE_URL}/${NIFI_TOOLKIT_BINARY_PATH} -o ${NIFI_BASE_DIR}/nifi-toolkit-${NIFI_VERSION}-bin.zip \
@@ -91,4 +91,6 @@ WORKDIR ${NIFI_HOME}
 # Also we need to use relative path, because the exec form does not invoke a command shell,
 # thus normal shell processing does not happen:
 # https://docs.docker.com/engine/reference/builder/#exec-form-entrypoint-example
+RUN chmod -R g=u ${NIFI_HOME} 
 ENTRYPOINT ["../scripts/start.sh"]
+USER 1001
