@@ -16,11 +16,13 @@
 # under the License.
 #
 
-FROM openjdk:8-jre
+FROM  ubi8/openjdk-8 
 LABEL maintainer="Apache NiFi <dev@nifi.apache.org>"
 LABEL site="https://nifi.apache.org"
 
-ARG NIFI_VERSION=1.12.1
+ARG UID=1000
+ARG GID=1000
+ARG NIFI_VERSION=1.13.0
 ARG BASE_URL=https://archive.apache.org/dist
 ARG MIRROR_BASE_URL=${MIRROR_BASE_URL:-${BASE_URL}}
 ARG NIFI_BINARY_PATH=${NIFI_BINARY_PATH:-/nifi/${NIFI_VERSION}/nifi-${NIFI_VERSION}-bin.zip}
@@ -36,15 +38,14 @@ ENV NIFI_LOG_DIR=${NIFI_HOME}/logs
 ADD sh/ ${NIFI_BASE_DIR}/scripts/
 RUN chmod -R +x ${NIFI_BASE_DIR}/scripts/*.sh
 
-
 # Setup NiFi user and create necessary directories
 RUN  mkdir -p ${NIFI_BASE_DIR} \
-    && chgrp -R 0  ${NIFI_BASE_DIR} \
-    && chmod -R g+rwX ${NIFI_BASE_DIR} \
+    && chgrp -R  0 ${NIFI_BASE_DIR} \
+    && chmod -R g=u ${NIFI_BASE_DIR} \
     && apt-get update \
     && apt-get install -y jq xmlstarlet procps
 
-USER 1001 
+USER 1001
 
 # Download, validate, and expand Apache NiFi Toolkit binary.
 RUN curl -fSL ${MIRROR_BASE_URL}/${NIFI_TOOLKIT_BINARY_PATH} -o ${NIFI_BASE_DIR}/nifi-toolkit-${NIFI_VERSION}-bin.zip \
@@ -68,7 +69,6 @@ RUN curl -fSL ${MIRROR_BASE_URL}/${NIFI_BINARY_PATH} -o ${NIFI_BASE_DIR}/nifi-${
     && mkdir -p ${NIFI_HOME}/state \
     && mkdir -p ${NIFI_LOG_DIR} \
     && ln -s ${NIFI_HOME} ${NIFI_BASE_DIR}/nifi-${NIFI_VERSION}
-
 
 VOLUME ${NIFI_LOG_DIR} \
        ${NIFI_HOME}/conf \
@@ -95,4 +95,4 @@ WORKDIR ${NIFI_HOME}
 # Also we need to use relative path, because the exec form does not invoke a command shell,
 # thus normal shell processing does not happen:
 # https://docs.docker.com/engine/reference/builder/#exec-form-entrypoint-example
-# ENTRYPOINT ["../scripts/start.sh"]
+ENTRYPOINT ["../scripts/start.sh"]
