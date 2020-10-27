@@ -41,9 +41,7 @@ RUN chmod -R +x ${NIFI_BASE_DIR}/scripts/*.sh
 # Setup NiFi user and create necessary directories
 RUN  mkdir -p ${NIFI_BASE_DIR} \
     && chgrp -R  0 ${NIFI_BASE_DIR} \
-    && chmod -R g=u ${NIFI_BASE_DIR} \
-    && apk update \
-    && apk add  jq xmlstarlet procps
+    && chmod -R g=u ${NIFI_BASE_DIR} 
 
 USER 1001
 
