@@ -95,5 +95,5 @@ WORKDIR ${NIFI_HOME}
 # thus normal shell processing does not happen:
 # https://docs.docker.com/engine/reference/builder/#exec-form-entrypoint-example
 RUN echo "starting the nifi "
-CMD ["../scripts/start.sh"]
+ENTRYPOINT ["../scripts/start.sh"]
 USER 1001
