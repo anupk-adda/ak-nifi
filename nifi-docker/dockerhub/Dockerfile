@@ -42,8 +42,8 @@ RUN chmod -R +x ${NIFI_BASE_DIR}/scripts/*.sh
 RUN  mkdir -p ${NIFI_BASE_DIR} \
     && chgrp -R  0 ${NIFI_BASE_DIR} \
     && chmod -R g=u ${NIFI_BASE_DIR} \
-    && apt-get update \
-    && apt-get install -y jq xmlstarlet procps
+    && apk update \
+    && apk add  jq xmlstarlet procps
 
 USER 1001
 
