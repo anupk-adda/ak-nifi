@@ -39,7 +39,8 @@ RUN chmod -R +x ${NIFI_BASE_DIR}/scripts/*.sh
 # Setup NiFi user and create necessary directories
 RUN  mkdir -p ${NIFI_BASE_DIR} \
     && chgrp -R  0 ${NIFI_BASE_DIR}  \
-    && chmod -R g=u ${NIFI_BASE_DIR} 
+    && chmod -R g=u ${NIFI_BASE_DIR} \
+    && dnf update librepo 
 
 #USER 1001
 
